@@ -1,3 +1,5 @@
+package Sem1;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -33,7 +35,7 @@ public class Galo extends Grid{
     }
 
     public static void main(String[] args) {
-        Galo jogo = new Galo("Jogo do Galo", 3, 3, 50);
+        Galo jogo = new Galo("Jogo do Sem1.Galo", 3, 3, 50);
         jogo.open();
     }
 

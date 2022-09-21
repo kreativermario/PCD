@@ -1,44 +1,28 @@
-import javax.swing.*;
+package Sem1;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Flow;
+import javax.swing.*;
 
-public class MyFrame {
-    private JFrame frame;
+public class main {
 
-    public MyFrame(String title, int width, int height) {
-        frame = new JFrame("Test");
-        frame.setSize(new Dimension(width, height));
-
-        // para que o botao de fechar a janela termine a aplicacao
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        addFrameContent();
-
-        // para que a janela se redimensione de forma a ter todo o seu conteudo visivel
-        frame.pack();
-    }
-
-    public void open() {
-        // para abrir a janela (torna-la visivel)
-        frame.setVisible(true);
-    }
-
-    private void addFrameContent() {
-
-
-		/* para organizar o conteudo em grelha (linhas x colunas)
-		se um dos valores for zero, o numero de linhas ou colunas (respetivamente) fica indefinido,
-		e estas sao acrescentadas automaticamente */
-        GridLayout layout = new GridLayout(1,1);
+    public static void main(String[] args) {
+        JFrame frame = new JFrame ("Teste" );
+        GridLayout layout = new GridLayout(4,2);
         frame.setLayout(layout);
         //frame.setLayout(new FlowLayout(FlowLayout.LEADING));
+
+        frame.setSize (500 , 400);
+        frame.setLocation (200 , 100);
+
 
         //frame.add(new JLabel("Title:"));
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5,2,2,10));
-        panel.setPreferredSize(null);
+        panel.setLayout(new GridLayout(5,2));
+        panel.setPreferredSize(new Dimension(100,100));
 
         JTextField title = new JTextField(1);
         JTextField width = new JTextField(1);
@@ -54,8 +38,8 @@ public class MyFrame {
 
         panel.add(new JLabel("Height:"));
         panel.add(height);
-        panel.add(button);
         panel.add(check);
+        panel.add(button);
 
         frame.add(panel);
 
@@ -81,10 +65,18 @@ public class MyFrame {
                 }
             }
         });
+
+
+
+        frame.setResizable ( false );
+        // para que o botao de fechar a janela termine a aplicacao
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible ( true );
+        // para que a janela se redimensione de forma a ter todo o seu conteudo visivel
+        //frame.pack();
+
+
     }
 
-    public static void main(String[] args) {
-        MyFrame window = new MyFrame("Title", 300, 150);
-        window.open();
-    }
+
 }

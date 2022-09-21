@@ -1,8 +1,9 @@
+package Sem1;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class Grid {
     private JFrame frame;
