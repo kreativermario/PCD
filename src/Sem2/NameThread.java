@@ -13,19 +13,18 @@ public class NameThread extends Thread{
                 sleep(time * 1000);
             }
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            System.out.print(getName() + " foi interrompida!");
         }
-
+        System.out.print(getName() + " terminou!");
     }
     public static void main ( String [] args ) throws InterruptedException {
         NameThread t1 = new NameThread();
         NameThread t2 = new NameThread();
-        NameThread t3 = new NameThread();
         t1.start();
         t2.start();
-        t3.start();
         try{
             t1.join();
+            t2.join();
         }catch ( InterruptedException e ) {
             System.out.println("Interrupted main!");
         }
