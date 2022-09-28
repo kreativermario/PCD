@@ -38,7 +38,6 @@ public class Account {
             totalDeposited+=result;
             if(this.isInterrupted()){
                 System.out.println( getName() + "Interrupted!");
-                return;
             }
 
         }
@@ -54,7 +53,7 @@ public class Account {
         Client [] clients = new Client[10];
         int totalDeposited = 0;
         try{
-            for(int i = 0; i< 10; i++){
+            for(int i = 0; i< clients.length; i++){
                 Client c = new Client(account);
                 clients[i] = c;
                 c.start();
