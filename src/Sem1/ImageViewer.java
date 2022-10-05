@@ -7,14 +7,24 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileFilter;
 
+/***
+ * Exercício 2 - Visualizador de imagens - BorderLayout, ImageIcon
+ */
 public class ImageViewer {
     private JFrame frame;
+    // Contador de onde está a imagem atual
     private int counter = 0;
+    // Lista de imagens
     private File [] images = readImages();
     private ImageIcon icon;
+    // A imagem a dar display
     private JLabel image = new JLabel();
+    // O nome do ficheiro da imagem atual
     JLabel imageName = new JLabel(images[counter].getName());
 
+    /***
+     * Construtor
+     */
     public ImageViewer() {
         frame = new JFrame("Test");
 

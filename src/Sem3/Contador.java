@@ -1,5 +1,8 @@
 package Sem3;
 
+/**
+ * Exercicio 1 - Incremento concorrente ALINEA A)
+ */
 public class Contador {
     private int counter;
 
@@ -7,6 +10,9 @@ public class Contador {
         this.counter = 0;
     }
 
+    /**
+     * Uso do synchronized para que seja so uma thread a entrar aqui
+     */
     public synchronized void increaseCounter(){
         this.counter++;
     }
@@ -15,6 +21,9 @@ public class Contador {
         return counter;
     }
 
+    /**
+     * A thread que aumenta o contador
+     */
     public static class ContadorThread extends Thread{
 
         private Contador contador;

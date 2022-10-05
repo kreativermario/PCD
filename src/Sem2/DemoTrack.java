@@ -2,6 +2,9 @@ package Sem2;
 
 import javax.swing.JFrame;
 
+/***
+ * Exercício 3 - Corrida de automóveis
+ */
 public class DemoTrack {
 
 	public static void main(String[] args) {

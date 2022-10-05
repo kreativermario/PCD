@@ -5,6 +5,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * Exercício 3 - Conta bancária
+ */
 public class Account {
     private AtomicInteger balance;
 

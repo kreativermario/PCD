@@ -6,12 +6,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+/***
+ * Exercício 2 - Corrida de Cavalos
+ *  NOTA: NAO AUMENTAR MUITO A JANELA, tem um bug esquisito! Os numeros bruh
+ */
 public class HorseRace {
     private JFrame frame;
-    private Horse winner;
+
+    // Lista de threads com os tres cavalos
     private Horse [] horses = new Horse[3];
 
-
+    /**
+     * Construtor da corrida
+     * @param field1 Recebe a distancia do cavalo 1
+     * @param field2 Recebe a distancia do cavalo 2
+     * @param field3 Recebe a distancia do cavalo 3
+     */
     public HorseRace(JTextField field1, JTextField field2, JTextField field3) {
         frame = new JFrame("Corrida de Cavalos");
 
@@ -29,12 +39,13 @@ public class HorseRace {
         frame.setVisible(true);
     }
 
-    public Horse[] getHorses() {
-        return horses;
-    }
-
+    /**
+     * Adiciona o contéudo à frame
+     * @param field1 TextField do cavalo 1
+     * @param field2 TextField do cavalo 2
+     * @param field3 TextField do cavalo 3
+     */
     private void addFrameContent(JTextField field1, JTextField field2, JTextField field3) {
-
 
 		/* para organizar o conteudo em grelha (linhas x colunas)
 		se um dos valores for zero, o numero de linhas ou colunas (respetivamente) fica indefinido,
@@ -45,11 +56,14 @@ public class HorseRace {
         panel.add(field2);
         panel.add(field3);
 
-        JButton button = new JButton("button");
+        JButton button = new JButton("Inicia");
+
+        // Iniciar a corrida quando clica no botão
         button.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Criar as threads "Horse" cavalos, adicioná-los à lista (para podermos dar interrupt a todas)
                 Horse h1 = new Horse(field1);
                 Horse h2 = new Horse(field2);
                 Horse h3 = new Horse(field3);
@@ -61,13 +75,22 @@ public class HorseRace {
                 h3.start();
             }
         });
-        frame.add(button);
+        panel.add(button);
 
         frame.add(panel);
     }
+
+    /**
+     * A thread do cavalo
+     */
     public class Horse extends Thread {
+        // Posição do cavalo
         private JTextField location;
 
+        /**
+         * Construtor
+         * @param location
+         */
         public Horse(JTextField location) {
             this.location = location;
         }
@@ -75,27 +98,41 @@ public class HorseRace {
         @Override
         public void run() {
             try {
+                // Correr durante o tal tamanho definido - 30 passos
                 for (int i = 0; i < 30; i++) {
-                    int value = Integer.valueOf(location.getText());
+                    // Buscar a posição atual e diminuir
+                    int value = Integer.parseInt(location.getText());
                     value--;
-                    String status = Integer.toString(value);
-                    location.setText(status);
-                    Random r = new Random();
-                    int low = 0;
-                    int high = 100;
-                    int result = r.nextInt(high - low) + low;
+
+                    // verificar se chegou ao fim da corrida
                     if(value==0){
-                        winner = this;
+                        /* Terminar todas as threads menos esta. Para que esta thread (a que ganhou) possa colocar
+                        a mensagem que ganhou
+                        */
                         for(Horse horse:horses){
                             if(!horse.equals(this)){
                                 horse.interrupt();
                             }
                         }
+                        // Colocar o pop-up que ganhou e terminar a thread.
                         JOptionPane.showMessageDialog(null, "Horse " + getName() + " won!");
+                        return;
                     }
+
+                    // Colocar o novo valor da posição
+                    String status = Integer.toString(value);
+                    location.setText(status);
+
+                    // Quanto tempo deve dormir
+                    Random r = new Random();
+                    int low = 0;
+                    int high = 100;
+                    int result = r.nextInt(high - low) + low;
+
                     sleep(result * 10);
 
                 }
+            // A encher chouriços mas podes enfiar o que quiseres aqui
             } catch (InterruptedException e) {
 
             }

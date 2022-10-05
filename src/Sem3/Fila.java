@@ -2,6 +2,9 @@ package Sem3;
 
 import java.util.Random;
 
+/**
+ * Exercício 2 - Fila de inteiros
+ */
 public class Fila {
 
     private int size, back;
@@ -61,6 +64,9 @@ public class Fila {
         System.out.print(texto + System.lineSeparator()) ;
     }
 
+    /**
+     * A thread que vai colocando numeros
+     */
     public static class MyThread extends Thread{
         private Fila fila;
 

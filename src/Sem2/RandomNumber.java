@@ -5,8 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+/**
+ * Exercicio 4 - Extra: Gerador de números aleatórios
+ */
 public class RandomNumber extends Thread{
 
+    /**
+     * A classe ThreadA
+     */
     public static class zeroHundred extends Thread{
         private int count = 0;
 
@@ -34,6 +40,9 @@ public class RandomNumber extends Thread{
 
     }
 
+    /**
+     * Classe Thread B
+     */
     public static class zeroNine extends Thread{
 
         private int count=0;

@@ -2,13 +2,21 @@ package Sem3;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Exercicio 1 - Incremento concorrente ALINEA B)
+ */
 public class AtomicContador {
+
+    // Cria-se a variavel atomica
     private AtomicInteger counter;
 
     public AtomicContador(){
         this.counter = new AtomicInteger();
     }
 
+    /**
+     * Ja nao e preciso o synchronized pois podemos usar os metodos da variavel atomica
+     */
     public void increaseCounter(){
         this.counter.incrementAndGet();
     }
