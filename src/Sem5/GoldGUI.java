@@ -1,4 +1,4 @@
-package Sem4;
+package Sem5;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,24 +12,21 @@ import java.util.Random;
 public class GoldGUI {
 
     private JFrame frame;
-    private Scale scale;
-
+    private Escala scale;
     private GoldDigger goldDigger;
     private GoldProducer goldProducer;
-    private Thread [] threads = new Thread[2];
 
 
     public GoldGUI(String title, JTextField field){
+
         frame = new JFrame(title);
         // para que o botao de fechar a janela termine a aplicacao
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         addFrameContent(field);
-        scale = new Scale(field);
+        scale = new Escala(field);
         this.goldDigger = new GoldDigger(scale);
         this.goldProducer = new GoldProducer(scale);
-        threads[0] = goldProducer;
-        threads[1] = goldDigger;
 
         // para que a janela se redimensione de forma a ter todo o seu conteudo visivel
         frame.pack();
@@ -51,9 +48,8 @@ public class GoldGUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(Thread t : threads){
-                    t.interrupt();
-                }
+                goldDigger.interrupt();
+                goldProducer.interrupt();
             }
         });
         panel.add(field);
@@ -75,3 +71,4 @@ public class GoldGUI {
 
 
 }
+
