@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 /**
  * Exercício 2 - GUI
@@ -11,13 +12,16 @@ import java.awt.event.ActionListener;
 public class GoldGUI {
 
     private JFrame frame;
+    private Scale scale;
 
-    public GoldGUI(String title){
+
+    public GoldGUI(String title, JTextField field){
         frame = new JFrame(title);
         // para que o botao de fechar a janela termine a aplicacao
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        addFrameContent();
+        addFrameContent(field);
+        scale = new Scale(field);
 
         // para que a janela se redimensione de forma a ter todo o seu conteudo visivel
         frame.pack();
@@ -29,17 +33,9 @@ public class GoldGUI {
     }
 
 
-    public void addFrameContent(){
+    public void addFrameContent(JTextField field){
         frame.setLayout(new GridLayout(1,1));
         JPanel panel = new JPanel(new GridLayout(3,1));
-        JTextField gold = new JTextField("0");
-
-        ImageIcon icon = new ImageIcon("gold-digger-money.gif");
-        JLabel imageLbl = new JLabel(icon);
-
-        // Criar Gold Operation
-
-
 
 
         JButton button = new JButton("STOP");
@@ -47,27 +43,22 @@ public class GoldGUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                scale.stopThreads();
             }
         });
-        panel.add(gold);
-        panel.add(imageLbl);
+        panel.add(field);
         panel.add(button);
+
 
 
         frame.add(panel);
     }
 
 
-
-
-
-
-
-
-
     public static void main(String[] args) {
-        GoldGUI gui = new GoldGUI("Gold Operation 2022");
+        JTextField gold = new JTextField("0");
+        GoldGUI gui = new GoldGUI("Gold Operation 2022", gold);
+
         gui.open();
 
     }
