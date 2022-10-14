@@ -26,8 +26,8 @@ public class Relogio{
         clockFrame.getContentPane().add(timeLabel, BorderLayout.CENTER);
 
         //Mostrar a janela
-        clockFrame.setLocation(500,350);
         clockFrame.pack();
+        clockFrame.setLocationRelativeTo(null);
         clockFrame.setVisible(true);
 
         int delay = 100;
