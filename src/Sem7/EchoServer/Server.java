@@ -10,11 +10,6 @@ import java.net.Socket;
 public class Server {
 
     private ServerSocket server;
-
-    // O que é necessário para ligar um cliente
-    private Socket connection;
-    private BufferedReader input;
-    private PrintWriter output;
     public static final int PORT = 2022;
 
     public Server() {
@@ -27,56 +22,86 @@ public class Server {
     }
 
     public void runServer(){
-        try {
-            waitForConnection();
-            getStreams();
-            proccessConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            closeConnection();
+        while (true){
+            try {
+                waitForConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 
     public void waitForConnection() throws IOException{
         System.out.println("Waiting for connection...");
-        connection = server.accept();
+        Socket connection = server.accept();
+        ConnectionHandler connectionHandler = new ConnectionHandler(connection);
+        connectionHandler.start();
     }
 
-    public void getStreams() throws IOException{
-        //TODO Autoflush, quando escrevo algo, manda logo
-        output = new PrintWriter(connection.getOutputStream(), true);
+    /**
+     * Classe que trata das conexões dos vários clientes, é a thread que trata
+     */
+    public class ConnectionHandler extends Thread{
 
-        input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        // O que é necessário para ligar um cliente
+        private Socket connection;
+        private BufferedReader input;
+        private PrintWriter output;
 
-    }
-
-    public void proccessConnection() throws IOException{
-        System.out.println("Successful connection, starting proccessing...");
-        while(true){
-            String message = input.readLine();
-
-            if("FIM".equals(message)) break;
-
-            System.out.println("ECHO: " + message);
-
-            output.println("Echo: " + message);
+        public ConnectionHandler(Socket connection){
+            this.connection = connection;
         }
-    }
 
-    public void closeConnection() {
-        /**
-         * Este método não é o mais correto, porque se input der erro não vai fechar o resto tipo o output,
-         * RESOURCE LEAK! Teria que fazer try catch para cada um.
-         */
-        try{
-            input.close();
-            output.close();
-            connection.close();
-        }catch (IOException e){
-            e.printStackTrace();
+        @Override
+        public void run(){
+            try {
+                getStreams();
+                proccessConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                closeConnection();
+            }
+
         }
+
+        public void getStreams() throws IOException{
+            //TODO Autoflush, quando escrevo algo, manda logo
+            output = new PrintWriter(connection.getOutputStream(), true);
+
+            input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        }
+
+        public void proccessConnection() throws IOException{
+            System.out.println("Successful connection, starting proccessing...");
+            while(true){
+                String message = input.readLine();
+
+                if("FIM".equals(message)) break;
+
+                System.out.println("ECHO: " + message);
+
+                output.println("Echo: " + message);
+            }
+        }
+
+        public void closeConnection() {
+            /**
+             * Este método não é o mais correto, porque se input der erro não vai fechar o resto tipo o output,
+             * RESOURCE LEAK! Teria que fazer try catch para cada um.
+             */
+            try{
+                input.close();
+                output.close();
+                connection.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }
+
+
 
     }
 
