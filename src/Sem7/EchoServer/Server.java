@@ -23,8 +23,6 @@ public class Server {
             System.err.println("Error connecting server... aborting!");
             System.exit(1);
         }
-
-
     }
 
     public void runServer(){
@@ -37,8 +35,9 @@ public class Server {
         connection = server.accept();
     }
 
-    public void getStream(){
-
+    public void getStream() throws IOException{
+        //TODO Autoflush, quando escrevo algo, manda logo
+        output = new PrintWriter(connection.getOutputStream(), true);
     }
 
     public void proccessConnection(){
