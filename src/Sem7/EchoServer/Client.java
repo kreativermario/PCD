@@ -13,6 +13,7 @@ public class Client {
     private PrintWriter output;
     
     private String hostName;
+    public static final int PORT = 2022;
     
     public Client(String hostName){
         this.hostName = hostName;
@@ -34,7 +35,7 @@ public class Client {
 
     public void connectToServer(){
         try {
-            socket = new Socket(InetAddress.getByName(hostName), Server.PORT);
+            socket = new Socket(InetAddress.getByName(hostName), 2022);
         } catch (IOException e) {
             System.err.println("Client " + hostName + " error connecting... exiting");
             System.exit(1);
