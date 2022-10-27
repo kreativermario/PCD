@@ -25,11 +25,12 @@ public class MainBarreira {
                     e.printStackTrace();
                 }
                 int count = 0;
-                for (SearcherThread t : threads)
+                for (SearcherThread t : threads) {
                     if (t.getResult() != -1) {
                         System.out.println("Found at " + t.getResult());//+" in "+t.getMyText());
                         count++;
                     }
+                }
                 System.out.println("Search DONE. Found:" + count + " Time:" +
                         (System.currentTimeMillis() - initTime + " ms"));
             }
