@@ -2,6 +2,7 @@ package Sem7.EchoServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,7 +15,7 @@ public class Server {
     private Socket connection;
     private BufferedReader input;
     private PrintWriter output;
-    private static final int PORT = 2022;
+    public static final int PORT = 2022;
 
     public Server() {
         try{
@@ -26,7 +27,15 @@ public class Server {
     }
 
     public void runServer(){
-
+        try {
+            waitForConnection();
+            getStreams();
+            proccessConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
     }
 
 
@@ -35,22 +44,46 @@ public class Server {
         connection = server.accept();
     }
 
-    public void getStream() throws IOException{
+    public void getStreams() throws IOException{
         //TODO Autoflush, quando escrevo algo, manda logo
         output = new PrintWriter(connection.getOutputStream(), true);
+
+        input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
     }
 
-    public void proccessConnection(){
+    public void proccessConnection() throws IOException{
+        System.out.println("Successful connection, starting proccessing...");
+        while(true){
+            String message = input.readLine();
 
+            if("FIM".equals(message)) break;
+
+            System.out.println("ECHO: " + message);
+
+            output.println("Echo: " + message);
+        }
     }
 
-    public void closeConnection(){
+    public void closeConnection() {
+        /**
+         * Este método não é o mais correto, porque se input der erro não vai fechar o resto tipo o output,
+         * RESOURCE LEAK! Teria que fazer try catch para cada um.
+         */
+        try{
+            input.close();
+            output.close();
+            connection.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 
 
     public static void main(String[] args) {
-
+        Server server = new Server();
+        server.runServer();
     }
 
 }
