@@ -1,7 +1,5 @@
 package Sem4.Gold;
 
-import Sem4.Scale;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,9 +12,6 @@ public class GoldGUI {
 
     private JFrame frame;
     private Scale scale;
-
-    private GoldDigger goldDigger;
-    private GoldProducer goldProducer;
     private Thread [] threads = new Thread[2];
 
 
@@ -27,10 +22,12 @@ public class GoldGUI {
 
         addFrameContent(field);
         scale = new Scale(field);
-        this.goldDigger = new GoldDigger(scale);
-        this.goldProducer = new GoldProducer(scale);
-        threads[0] = goldProducer;
-        threads[1] = goldDigger;
+        threads[0] = scale.new GoldDigger();
+        threads[1] = scale.new GoldProducer();
+
+        for(Thread t : threads){
+            t.start();
+        }
 
         // para que a janela se redimensione de forma a ter todo o seu conteudo visivel
         frame.pack();

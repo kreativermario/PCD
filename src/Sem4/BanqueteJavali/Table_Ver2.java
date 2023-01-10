@@ -1,4 +1,4 @@
-package Sem4;
+package Sem4.BanqueteJavali;
 
 
 import java.util.LinkedList;

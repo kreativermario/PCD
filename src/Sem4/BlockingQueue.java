@@ -7,10 +7,6 @@ public class BlockingQueue<T>{
     private Queue<T> queue = new LinkedList<T>();
     private int limit;
 
-    public BlockingQueue(){
-
-    }
-
     public BlockingQueue(int limit){
         if(limit <= 0){
             throw new IllegalArgumentException("Limite tem de ser número positivo!");
