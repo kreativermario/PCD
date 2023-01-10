@@ -1,10 +1,11 @@
-package Sem4;
+package Sem4.Gold;
+
+import Sem4.Scale;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
 /**
  * Exercício 2 - GUI

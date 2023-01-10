@@ -1,13 +1,10 @@
-package Sem4;
-
-import Sem5.Javali;
-
+package Sem4.BanqueteJavali;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Mesa {
 
-    private List<Sem5.Javali> buffer;
+    private List<Javali> buffer;
     private int capacidade;
 
     public Mesa(int capacidade){
@@ -16,7 +13,7 @@ public class Mesa {
     }
 
 
-    public synchronized void put(Sem5.Javali j) throws InterruptedException {
+    public synchronized void put(Javali j) throws InterruptedException {
         while(buffer.size() == capacidade){ //isFull?
             this.wait(); // Bloqueia not full
         }
@@ -25,11 +22,11 @@ public class Mesa {
     }
 
 
-    public synchronized Sem5.Javali take() throws InterruptedException {
+    public synchronized Javali take() throws InterruptedException {
         while(buffer.isEmpty()) { //isEmpty?
             this.wait(); //Espera enquanto não tem javalis no buffer
         }
-        Sem5.Javali j = buffer.remove(0); //FIFO
+        Javali j = buffer.remove(0); //FIFO
         this.notifyAll(); ////Novo Javali no buffer
         return j;
     }
@@ -48,7 +45,7 @@ public class Mesa {
         @Override
         public void run() {
             for(n = 0; n < max; n++) {
-                Sem5.Javali j = new Sem5.Javali(n,id); //n-esimo javali do cozinhiero id
+                Javali j = new Javali(n,id); //n-esimo javali do cozinhiero id
                 try {
                     put(j);
                     System.out.println("[Produzido] " + j);

@@ -1,36 +1,39 @@
-package Sem4;
+package Sem4.Gold;
 
-public class GoldDigger extends Thread {
+import Sem4.Scale;
 
-    private double goldDigged = 0;
+public class GoldProducer extends Thread {
+
+    public static final int TIME_TO_PRODUCE = 3;
+    private int amount_produced = 0;
     private Scale scale;
 
-    public GoldDigger(Scale scale) {
-        System.out.println(Thread.currentThread().toString() + " - inicio do run");
+    public GoldProducer(Scale scale) {
         this.scale = scale;
         start();
     }
 
+
     @Override
     public void run() {
+
 
         try {
             while (true) {
                 if (this.isInterrupted()) {
                     System.out.println(Thread.currentThread().toString() + " - fim do run");
+                    System.out.println(Thread.currentThread().toString() + " - PRODUZIU NO TOTAL: " + amount_produced);
                     return;
                 }
-                double randomGold = Math.random();
-                double gold = Math.round(randomGold * 10.0) / 10.0;
-                scale.put(gold);
-                sleep(500);
 
-                goldDigged += gold;
+                scale.remove();
+                sleep(TIME_TO_PRODUCE);
+                amount_produced++;
             }
         } catch (InterruptedException e) {
             System.out.println(Thread.currentThread().toString() + " - InterruptedException");
         }
     }
-
 }
+
 

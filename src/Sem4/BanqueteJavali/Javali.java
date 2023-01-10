@@ -1,4 +1,4 @@
-package Sem4;
+package Sem4.BanqueteJavali;
 
 public class Javali {
     private int id;
