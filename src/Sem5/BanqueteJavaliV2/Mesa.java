@@ -1,17 +1,18 @@
-package Sem5;
+package Sem5.BanqueteJavaliV2;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.locks.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class Mesa{
+public class Mesa {
 
     private List<Javali> buffer;
+    private Lock lock = new ReentrantLock();
+    private Condition isFull = lock.newCondition();
+    private Condition isEmpty = lock.newCondition();
     private int capacidade;
-    private Lock lock = new ReentrantLock ();
-    private Condition notFull = lock.newCondition(); // variavel condicional para o metodo put
-    private Condition notEmpty = lock.newCondition(); // variavel condicional para o metodo take
-
 
     public Mesa(int capacidade){
         this.capacidade = capacidade;
@@ -20,34 +21,30 @@ public class Mesa{
 
 
     public void put(Javali j) throws InterruptedException {
-        //TODO Condicao [predicado] - buffer nao estar cheio
-        lock.lock(); // Bloquear o cadeado
+        lock.lock();
         try{
-            while(buffer.size() == capacidade){ //isFull?
-                notFull.await(); // notFull bloqueia
+            while(buffer.size() == capacidade){
+                isFull.await();
             }
             buffer.add(j);
-            notEmpty.signal(); // notificar notEmpty, ja nao esta vazia, avisar os consumidores.
-        }finally { // Desbloquear o cadeado
+            isEmpty.signal();
+        }finally {
             lock.unlock();
         }
     }
 
-
-    public synchronized Javali take() throws InterruptedException {
-        //TODO Condicao [predicado] - buffer nao estar vazio
+    public Javali take() throws InterruptedException {
         lock.lock();
         try{
             while(buffer.isEmpty()) { //isEmpty?
-                notEmpty.await(); // bloqueio condicao not empty
+                isEmpty.await();
             }
             Javali j = buffer.remove(0); //FIFO
-            notFull.signal(); // Condicao not full e verificada
+            isFull.signal();
             return j;
         }finally {
             lock.unlock();
         }
-
     }
 
     public class Cozinheiro extends Thread{
@@ -102,7 +99,7 @@ public class Mesa{
     }
 
     public static void main(String[] args){
-        Mesa mesa = new Mesa(1); //Buffer partilhado, tamanho max 10
+        Mesa mesa = new Mesa(10); //Buffer partilhado, tamanho max 10
 
         Glutao[] glutoes = new Glutao[2];
         Cozinheiro[] cozinheiros = new Cozinheiro[5];
@@ -113,7 +110,7 @@ public class Mesa{
         }
 
         for(int i = 0; i < cozinheiros.length; i++){
-            cozinheiros[i] = mesa.new Cozinheiro(i, 1); // Partilha mesa, produz até 2 javalis
+            cozinheiros[i] = mesa.new Cozinheiro(i, 4); // Partilha mesa, produz até 2 javalis
             cozinheiros[i].start();
         }
 

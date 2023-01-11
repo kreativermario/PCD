@@ -1,4 +1,6 @@
-package Sem2;
+package Sem2.CarRace;
+
+import Sem2.CarRace.Car;
 
 import java.awt.Graphics;
 import java.util.Observable;

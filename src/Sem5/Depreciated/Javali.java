@@ -1,4 +1,4 @@
-package Sem5;
+package Sem5.Depreciated;
 
 public class Javali {
     private int id;

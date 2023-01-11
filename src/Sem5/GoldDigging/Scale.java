@@ -1,12 +1,18 @@
-package Sem4.Gold;
+package Sem5.GoldDigging;
 
 import javax.swing.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Scale {
 
     public static final double CAPACITY = 50;
     public static final double GOLD_NEED = 12.5;
     private double currentCapacity = 0;
+    private Lock lock = new ReentrantLock();
+    private Condition readyPickup = lock.newCondition();
+    private Condition atCapacity = lock.newCondition();
     private JTextField textField;
 
     public Scale(JTextField textField) {
@@ -14,29 +20,50 @@ public class Scale {
     }
 
 
-    public synchronized void put(double amount) throws InterruptedException {
-        while (currentCapacity + amount >= CAPACITY || currentCapacity > GOLD_NEED) {
-            System.out.println("ESTOU ESPERANDO");
-            wait();
+    public void put(double amount) throws InterruptedException {
+        lock.lock();
+        try{
+            // Balança cheia!
+            while (currentCapacity + amount >= CAPACITY || currentCapacity > GOLD_NEED) {
+                System.out.println("ESTOU ESPERANDO");
+                atCapacity.await();
+            }
+            currentCapacity += amount;
+            currentCapacity = Math.round(currentCapacity * 10.0) / 10.0;
+            System.out.println(Thread.currentThread().toString() + " - coloquei GOLD: " + amount +
+                    " | BALANCE: " + currentCapacity);
+            textField.setText(Double.toString(currentCapacity));
+
+            readyPickup.signal();
+
+        }finally {
+            lock.unlock();
         }
-        currentCapacity += amount;
-        currentCapacity = Math.round(currentCapacity * 10.0) / 10.0;
-        System.out.println(Thread.currentThread().toString() + " - coloquei GOLD: " + amount +
-                " | BALANCE: " + currentCapacity);
-        textField.setText(Double.toString(currentCapacity));
-        notifyAll();
+
+
+
     }
 
 
-    public synchronized void remove() throws InterruptedException {
-        while (currentCapacity < GOLD_NEED) {
-            System.out.println(Thread.currentThread().toString() + " - esperando RECOLHA");
-            wait();
+    public void remove() throws InterruptedException {
+        lock.lock();
+        try{
+            while (currentCapacity < GOLD_NEED) {
+                System.out.println(Thread.currentThread().toString() + " - esperando RECOLHA");
+                readyPickup.await();
+            }
+            System.out.println(Thread.currentThread().toString() + " - retirei GOLD");
+            currentCapacity -= GOLD_NEED;
+            textField.setText(Double.toString(currentCapacity));
+
+            atCapacity.signal();
+
+        }finally {
+            lock.unlock();
         }
-        System.out.println(Thread.currentThread().toString() + " - retirei GOLD");
-        currentCapacity -= GOLD_NEED;
-        textField.setText(Double.toString(currentCapacity));
-        notifyAll();
+
+
+
     }
 
     public class GoldProducer extends Thread {

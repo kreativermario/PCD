@@ -1,4 +1,4 @@
-package Sem2;
+package Sem2.CarRace;
 import java.util.Observable;
 import java.util.Random;
 
