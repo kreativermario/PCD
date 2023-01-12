@@ -2,16 +2,44 @@ package Sem6.Ex5_Balls;
 
 import java.awt.Color;
 import java.util.Observable;
+import java.util.concurrent.CountDownLatch;
+
+import static Sem6.Ex5_Balls.IG.NUM_WINNERS;
 
 public class Bola extends Observable implements DrawableBall, Runnable {
 	private float estado=0;
+	public static final int SLEEP_TIME = 5; // em ms
 	private Color color=new Color((int)(Math.random()*256), 
 			(int)(Math.random()*256), (int)(Math.random()*256));
+	private CountDownLatch latch;
 
+	public Bola(CountDownLatch latch){
+		this.latch = latch;
+	}
 
 	@Override
 	public void run() {
 		// TODO
+		try{
+			while(true){
+				if(bolaAtingiuLimite()){
+					latch.countDown();
+					System.out.println(latch.getCount());
+					break;
+				}
+				double random = 0.01 * Math.random() * (0.1 - 0.01);
+				estado += random;
+				setChanged();
+				notifyObservers();
+				Thread.sleep(SLEEP_TIME);
+			}
+		}catch (InterruptedException e){
+
+		}
+
+
+
+
 	}
 
 	public boolean bolaAtingiuLimite(){
