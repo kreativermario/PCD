@@ -1,11 +1,10 @@
-package Sem6.Ex5_Balls;
+package Sem6.Ex5_Balls.CountDownLatch;
 
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.JLabel;
 
 public class BallPainter extends JLabel implements Observer {
 

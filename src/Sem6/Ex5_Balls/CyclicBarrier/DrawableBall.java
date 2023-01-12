@@ -1,4 +1,4 @@
-package Sem6.Ex5_Balls;
+package Sem6.Ex5_Balls.CyclicBarrier;
 
 import java.awt.Color;
 

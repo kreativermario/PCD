@@ -1,10 +1,8 @@
-package Sem6.Ex5_Balls;
+package Sem6.Ex5_Balls.CountDownLatch;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Observable;
 import java.util.concurrent.CountDownLatch;
-
-import static Sem6.Ex5_Balls.IG.NUM_WINNERS;
 
 public class Bola extends Observable implements DrawableBall, Runnable {
 	private float estado=0;

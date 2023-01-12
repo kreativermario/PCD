@@ -1,15 +1,13 @@
-package Sem6.Ex5_Balls;
+package Sem6.Ex5_Balls.CountDownLatch;
 
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
 
 public class IG {
 	ArrayList<Bola> bolas= new ArrayList<>();
