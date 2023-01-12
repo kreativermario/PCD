@@ -7,7 +7,7 @@ import java.util.concurrent.CyclicBarrier;
 
 
 public class MainBarreira {
-	static final int NUM_DOCUMENTS_TO_BE_SEARCHED=1000;
+	static final int NUM_DOCUMENTS_TO_BE_SEARCHED=10;
 	static final int STRING_LENGTH=1024;
 	static final String STRING_TO_BE_FOUND="huik";
 

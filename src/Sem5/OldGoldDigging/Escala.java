@@ -1,4 +1,4 @@
-package Sem5;
+package Sem5.OldGoldDigging;
 
 import javax.swing.*;
 import java.util.concurrent.locks.*;

@@ -1,4 +1,4 @@
-package Sem5;
+package Sem5.OldGoldDigging;
 
 public class GoldDigger extends Thread {
 
