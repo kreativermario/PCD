@@ -1,11 +1,10 @@
-package Sem7.OnlineChat.Original;
+package Sem7.OnlineChat.ComObjeto;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -47,7 +46,7 @@ public class ClientGUI {
 
     public void setChatField(String message) {
         System.out.println("Updating chat field...");
-        chatField.setText(message);
+        chatField.append(message + "\n");
     }
 
     private void addFrameContent() {

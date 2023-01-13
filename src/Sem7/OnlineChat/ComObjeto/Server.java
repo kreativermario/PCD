@@ -1,4 +1,4 @@
-package Sem7.OnlineChat.Original;
+package Sem7.OnlineChat.ComObjeto;
 
 
 import java.io.*;
