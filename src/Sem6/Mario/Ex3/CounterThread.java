@@ -23,19 +23,24 @@ public class CounterThread extends Thread{
                     barrier.await();
                     long endTime = System.nanoTime();
                     long time = (long) ((endTime - startTime)/(1e6));
-                    System.out.println("Thread " + id + " finishing 1st round at:" + time);
+                    System.out.println("Thread " + id + " finished 10^3 round at:" + time);
                 } catch (InterruptedException | BrokenBarrierException e) {
                     throw new RuntimeException(e);
                 }
             }
         }
+        if(id < 5){
+            long endTime = System.nanoTime();
+            long time = (long) ((endTime - startTime)/(1e6));
+            System.out.println("Thread " + id + " finished 10^6 round at:" + time);
+        }
         try{
             if(id >= 5){
                 barrier.await();
+                long endTime = System.nanoTime();
+                long time = (long) ((endTime - startTime)/(1e6));
+                System.out.println("Thread " + id + " finished all counting at:" + time);
             }
-            long endTime = System.nanoTime();
-            long time = (long) ((endTime - startTime)/(1e6));
-            System.out.println("Thread " + id + " finishing at:" + time);
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
         }
